@@ -1,4 +1,4 @@
-## Hi, I'm Dika! 👋
+### Hi, I'm Dika! 👋
 
 🎓 Computer Science student at the Universitas Gadjah Mada </br>
 📊 Passionate about Data Science, AI, and building meaningful tech solutions </br>
