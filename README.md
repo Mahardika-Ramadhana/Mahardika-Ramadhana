@@ -1,8 +1,7 @@
 ## Hi, I'm Dika! 👋
 
-🎓 Computer Science student @ Universitas Gadjah Mada
-🔍 Passionate about Data Science, AI, and building meaningful tech solutions
-📊 Currently learning: Machine Learning, Python, and SQL
-🚀 Kaggle Competitor | Lifelong Learner
-💡 I believe in learning by doing and sharing what I know
-📫 Let's connect: LinkedIn | Email
+🎓 Computer Science student at the [Universitas Gadjah Mada](https://ugm.ac.id/) </br>
+📊 Passionate about Data Science, AI, and building meaningful tech solutions </br>
+🚀 Currently exploring Machine Learning & Kaggle </br>
+💡 I believe in learning by doing and sharing what I know </br>
+📫 Let's connect: [LinkedIn](https://www.linkedin.com/in/mahardika-ramadhana-390a98321/) </br>
