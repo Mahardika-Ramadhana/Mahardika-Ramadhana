@@ -1,7 +1,7 @@
 ### Hi, I'm Dika! 👋
 
 🎓 Computer Science student at Universitas Gadjah Mada </br>
-🚀 Passionate about robotic </br>
+🚀 Passionate about robotics and AI</br>
 💡 I believe in learning by doing and collaborating </br>
 📫 Let's connect: [LinkedIn](https://www.linkedin.com/in/mahardika-ramadhana-390a98321/)</br>
 
