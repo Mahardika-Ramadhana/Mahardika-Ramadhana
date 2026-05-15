@@ -33,11 +33,4 @@ Right now, I am deepening my knowledge in:
 * **Software Engineering Methodologies**
 
 ---
-
-### 📫 Connect with Me
-
-* **LinkedIn:** [linkedin.com/in/mahardika-ramadhana](https://www.linkedin.com/in/mahardika-ramadhana-390a98321/)
-* **Email:** mdikaramadhana@gmail.com
-
----
 *“Turning logic into solutions, one step at a time.”*
