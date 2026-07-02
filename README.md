@@ -6,7 +6,7 @@ I am a **Computer Science** student at **Universitas Gadjah Mada**, passionate a
 
 ### 🎓 Academic Highlights
 
-* **Progress:** Successfully completed 69 credits of core CS curriculum.
+* **Progress:** Successfully completed 93 credits of core CS curriculum.
 * **Core Expertise:**
     * **Artificial Intelligence:** Artificial Intelligence & Genetic Algorithms.
     * **Computing Foundations:** Analysis of Algorithms, Data Structures, and Programming.
