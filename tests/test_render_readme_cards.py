@@ -7,6 +7,7 @@ from pathlib import Path
 
 from scripts.render_readme_cards import (
     EXPECTED_CARDS,
+    HEATMAP_RAMP,
     count_up,
     level_for,
     render_all,
@@ -131,3 +132,70 @@ def test_render_all_static_mode_and_zero_contributions(tmp_path: Path):
 
     activity_svg = (tmp_path / "activity.svg").read_text(encoding="utf-8")
     assert "0 " in activity_svg
+
+
+def test_burning_car_grid_is_rectangular_and_valid():
+    from scripts.render_readme_cards import BURNING_CAR_GRID, STITCH_PALETTE
+
+    assert len(BURNING_CAR_GRID) > 0
+    widths = {len(row) for row in BURNING_CAR_GRID}
+    assert widths == {38}
+    for row in BURNING_CAR_GRID:
+        for ch in row:
+            if ch != ".":
+                assert ch in STITCH_PALETTE
+
+
+def test_cross_stitch_ember_theme_tokens_and_motifs(tmp_path: Path):
+    data = make_sample_data()
+    written = render_all(
+        data,
+        out_dir=tmp_path,
+        static=False,
+        stars={"dish-counter-apparatus": 4, "mlaku-mulu": 0, "neetcode-gpt": 2},
+    )
+
+    for svg_path in written:
+        content = svg_path.read_text(encoding="utf-8")
+        assert "#00e5ff" not in content.lower()
+        assert "#070c12" not in content.lower()
+        assert ".flk1,.flk2,.smk1,.smk2" in content
+
+    for linen_card in (
+        "hero.svg",
+        "heatmap.svg",
+        "activity.svg",
+        "repo-dish-counter-apparatus.svg",
+        "repo-mlaku-mulu.svg",
+        "repo-neetcode-gpt.svg",
+    ):
+        content = (tmp_path / linen_card).read_text(encoding="utf-8")
+        assert "#f4ecda" in content
+        assert "#e5d9c2" in content
+        assert "<pattern" in content
+
+    hero_svg = (tmp_path / "hero.svg").read_text(encoding="utf-8")
+    assert 'class="flk1"' in hero_svg
+    assert 'class="smk1"' in hero_svg
+
+    heatmap_svg = (tmp_path / "heatmap.svg").read_text(encoding="utf-8")
+    assert "in ember" in heatmap_svg
+    assert "in cyan" not in heatmap_svg
+    for hex_color in HEATMAP_RAMP:
+        assert hex_color in heatmap_svg
+
+    expected_tiles = {
+        "robotics.svg": "#b83217",
+        "ai.svg": "#252219",
+        "honors.svg": "#6e3d21",
+    }
+    for tile_name, bg_hex in expected_tiles.items():
+        tile_svg = (tmp_path / tile_name).read_text(encoding="utf-8")
+        assert bg_hex in tile_svg
+        assert "#f6eedd" in tile_svg
+
+    static_dir = tmp_path / "static"
+    render_all(data, out_dir=static_dir, static=True, stars={})
+    static_hero = (static_dir / "hero.svg").read_text(encoding="utf-8")
+    assert ".flk1,.flk2,.smk1,.smk2{animation:none!important" in static_hero
+    assert "animation:none!important" in static_hero

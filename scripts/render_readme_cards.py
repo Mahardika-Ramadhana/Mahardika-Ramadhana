@@ -2,9 +2,10 @@
 """
 Render the Mahardika-Ramadhana profile README's cards as animated SVGs into cards/.
 
-Design: Dark Cyber-Robotics matched to https://mahardikaramadhana.vercel.app
-(#070c12/#0c141e void surfaces, #00e5ff cyan, #ff3b00 crimson, #0077b6 cobalt;
-Cabinet Grotesk, General Sans, JetBrains Mono).
+Design: Cross-Stitch Ember & Aida Linen matched to the user's cross-stitch
+burning-car profile picture (warm woven Aida linen surfaces, charcoal soot
+typography, saddle-brown vintage sedan accents, and fiery red/orange/gold
+ember stitches; Cabinet Grotesk, General Sans, JetBrains Mono).
 
 Every card is a standalone SVG shown through <img> or <picture>, using only what
 GitHub's README sanitizer permits: inline CSS animations, SMIL <animateTransform> /
@@ -25,24 +26,80 @@ DATA_PATH = os.path.join(ROOT, "data", "contributions.json")
 DEFAULT_OUT = os.path.join(ROOT, "cards")
 FONTS_DIR = os.path.join(ROOT, "fonts")
 
-# ---- Design tokens matched to mahardikaramadhana.vercel.app -----------------
-VOID = "#04070b"
-BG_DARK = "#070c12"
-BG_CARD_TOP = "#101c2a"
-BG_CARD_FALLBACK = "#0c141e"
-INK_FG = "#e8f4fa"
-INK_BODY = "#b8d0e0"
-INK_MUTED = "#7a94aa"
-INK_LIGHT = "#070c12"
+# ---- Design tokens matched to cross-stitch burning-car profile picture -----
+LINEN_TOP = "#f4ecda"
+LINEN_BASE = "#ebe1cd"
+LINEN_BOT = "#e5d9c2"
+LINEN_WEAVE = "#cbbca2"
+LINEN_PINHOLE = "#b3a082"
+LINEN_BORDER = "#bfae91"
+LINEN_STITCH = "#a69274"
 
-CYAN = "#00e5ff"
-CRIMSON = "#ff3b00"
-COBALT = "#0077b6"
-SKY = "#38bdf8"
+SOOT_DARK = "#1f1c14"
+SMOKE_MID = "#252219"
+SMOKE_LIGHT = "#464032"
+INK_MUTED = "#736450"
+ON_DARK = "#f6eedd"
 
-HEATMAP_RAMP = ["#111d2b", "#0a3a4f", "#006580", "#0099b8", "#00cce8", CYAN]
-BAR_MUTED = "#2b445c"
-BAR_PARTIAL = "#1a2c3d"
+WALNUT_DARK = "#5e331b"
+WALNUT = "#6e3d21"
+WALNUT_MID = "#8a502c"
+WALNUT_LIGHT = "#b5794c"
+CHROME = "#d0cabd"
+
+BLAZE_TILE = "#b83217"
+BLAZE_TEXT = "#b53015"
+BLAZE_RED = "#cf3b1a"
+EMBER_ORANGE = "#e66b26"
+FLAME_GOLD = "#f0b443"
+FLAME_CREAM = "#f7df94"
+AMBER_REPO = "#c97816"
+
+HEATMAP_RAMP = ["#dfd4be", "#f2c66d", "#eb8c34", "#de5622", "#bd2e16", "#6f1a10"]
+BAR_MUTED = "#8e7b63"
+BAR_PARTIAL = "#d6c8b0"
+
+STITCH_PALETTE: dict[str, tuple[str, str]] = {
+    "M": ("#232018", "smk1"),
+    "S": ("#403a2c", "smk2"),
+    "R": (BLAZE_RED, "flk1"),
+    "O": (EMBER_ORANGE, "flk2"),
+    "Y": (FLAME_GOLD, "flk1"),
+    "W": (FLAME_CREAM, "flk2"),
+    "K": ("#1e1b14", ""),
+    "D": (WALNUT_DARK, ""),
+    "B": (WALNUT_MID, ""),
+    "T": (WALNUT_LIGHT, ""),
+    "C": (CHROME, ""),
+    "L": (BLAZE_RED, ""),
+}
+
+STITCH_DRAW_ORDER = ("S", "M", "R", "O", "Y", "W", "T", "B", "D", "L", "C", "K")
+
+BURNING_CAR_GRID = (
+    ".................................SSSS.",
+    ".......................SSSS....SSMMMSS",
+    ".....................SSMMMSSSSSSMMMMMS",
+    "....................SSMMMMMSSMMMMMMMMM",
+    "....................SMMRMMMMMMMMMMMMMS",
+    "...................SMMRRMMMMMMMMMMMMSS",
+    "..................SMRROROMMMMMMMMSSSS.",
+    "................SSRROOYOROMMMMMMMSSS..",
+    "............RR..SRROOYYOROMMMRMMSSS...",
+    "...........RRO..RROYYWYOROMMRRMMSS....",
+    "..........RROORRROYYWWYOROORROMMSS....",
+    ".........RROYYOROOYWWYYORROYYORMS.....",
+    "........RROOYYKWWWWKKWWKOYOYYRORM.....",
+    ".......RROOYWWKYOYWKYOYWKYOYWRORM.....",
+    "......RROOYYYYKYYYYKYYYYKYYYORRR......",
+    "..TTTTTTTTTTYYYYTTTTTTTYYYYTTTTTTTD...",
+    ".KCCKCCKBBBBBBBBBBBBBBBBBBBBBBBBBBBD..",
+    "KCKKCKKBBBBKKKKBBBBBBBBBBBKKKKBBBBBL..",
+    "CCCCCCCBDDKKCCKKDDDDDDDDDKKCCKKDDDDK..",
+    ".KKKKKKBBDKKCCKKCCCCCCCCCKKCCKKDKKK...",
+    "...KKK....KKKKKK..........KKKK........",
+    "...........KKKK.......................",
+)
 
 W = 880
 GAP = 12
@@ -84,21 +141,21 @@ REPOS = (
         "Edge-AI POS fusing YOLOv11 vision with load-cell telemetry & QRIS.",
         "Python",
         "Edge-AI",
-        CYAN,
+        BLAZE_RED,
     ),
     (
         "mlaku-mulu",
         "NestJS & Prisma backend API for tourist and trip management.",
         "TypeScript",
         "NestJS",
-        CRIMSON,
+        WALNUT,
     ),
     (
         "neetcode-gpt",
         "GPT built from scratch in PyTorch: attention, Transformers & RMSNorm.",
         "Python",
         "PyTorch",
-        SKY,
+        AMBER_REPO,
     ),
 )
 
@@ -110,6 +167,10 @@ BASE_CSS = """
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:.25}}
 @keyframes nudge{0%,100%{transform:none}50%{transform:translateX(4px)}}
 @keyframes nudgeup{0%,100%{transform:none}50%{transform:translate(3px,-3px)}}
+@keyframes flk1{0%,100%{opacity:1;transform:none}45%{opacity:.82;transform:translateY(-1.5px)}70%{opacity:.96;transform:translateY(-.6px)}}
+@keyframes flk2{0%,100%{opacity:.95;transform:none}35%{opacity:.76;transform:translateY(-1.8px)}80%{opacity:1;transform:translateY(-.4px)}}
+@keyframes smk1{0%,100%{opacity:.95;transform:none}50%{opacity:.80;transform:translate(2.2px,-2.8px)}}
+@keyframes smk2{0%,100%{opacity:.92;transform:none}50%{opacity:.75;transform:translate(3.0px,-3.4px)}}
 .r{opacity:0;animation:rise .8s cubic-bezier(.2,.7,.2,1) both;transform-box:fill-box}
 .f{opacity:0;animation:fade .9s ease-out both}
 .g{transform-box:fill-box;transform-origin:bottom;transform:scaleY(0);animation:grow .8s cubic-bezier(.2,.7,.2,1) both}
@@ -117,6 +178,10 @@ BASE_CSS = """
 .live{animation:pulse 1.6s ease-in-out infinite}
 .n{transform-box:fill-box;animation:nudge 1.8s ease-in-out infinite}
 .nu{transform-box:fill-box;animation:nudgeup 1.8s ease-in-out infinite}
+.flk1{transform-box:fill-box;animation:flk1 1.6s ease-in-out infinite}
+.flk2{transform-box:fill-box;animation:flk2 2.1s ease-in-out infinite}
+.smk1{transform-box:fill-box;animation:smk1 3.8s ease-in-out infinite}
+.smk2{transform-box:fill-box;animation:smk2 4.6s ease-in-out infinite}
 @keyframes tilein{0%{opacity:0;transform:translateY(90px) scale(.6) rotate(-9deg)}55%{opacity:1;transform:translateY(-10px) scale(1.05) rotate(2deg)}75%{transform:translateY(3px) scale(.98) rotate(-.8deg)}90%{transform:translateY(-1px) scale(1.01) rotate(.2deg)}100%{opacity:1;transform:none}}
 @keyframes slidein{from{opacity:0;transform:translateX(-26px)}to{opacity:1;transform:none}}
 @keyframes arrowin{0%{opacity:0;transform:translateX(-30px)}60%{opacity:1;transform:translateX(6px)}100%{opacity:1;transform:none}}
@@ -129,7 +194,7 @@ BASE_CSS = """
 .ro{transform-box:fill-box;animation:roll .8s cubic-bezier(.15,.8,.2,1) both}
 .sh{animation:sheen 5s ease-in-out infinite}
 .rg{opacity:0;transform-box:fill-box;transform-origin:center;animation:ring 1s ease-out both}
-@media (prefers-reduced-motion: reduce){.r,.f,.g,.p,.live,.n,.nu,.ti,.sl,.ai,.ro,.rg{animation:none!important;opacity:1!important;transform:none!important}.sh,.rg{display:none}}
+@media (prefers-reduced-motion: reduce){.r,.f,.g,.p,.live,.n,.nu,.ti,.sl,.ai,.ro,.rg,.flk1,.flk2,.smk1,.smk2{animation:none!important;opacity:1!important;transform:none!important}.sh,.rg{display:none}}
 """
 
 
@@ -168,6 +233,7 @@ def svg(
     if static:
         css += (
             ".r,.f,.g,.p,.live,.n,.nu,.ti,.sl,.ai,.ro{animation:none!important;opacity:1!important;transform:none!important}"
+            ".flk1,.flk2,.smk1,.smk2{animation:none!important;opacity:1!important;transform:none!important}"
             ".sh,.rg{display:none}"
         )
     return (
@@ -213,45 +279,122 @@ def text_lines(x: float, y: float, lines: list[str], line_height: int, attrs: st
     )
 
 
-def card_surface(w: float, h: int, grad_id: str = "cardbg", extra_defs: str = "") -> str:
-    """Return dark cyber-robotics gradient surface defs, fill rect, and subtle cyan border."""
+def cross_stitch_mark(
+    x: float,
+    y: float,
+    size: float,
+    color: str,
+    stroke_width: float = 1.8,
+    cls: str = "",
+) -> str:
+    """Draw a diagonal cross-stitch X mark using an SVG path."""
+    cls_attr = f' class="{cls}"' if cls else ""
+    d_attr = f"M{x:.1f} {y:.1f}l{size:.1f} {size:.1f}M{x + size:.1f} {y:.1f}l{-size:.1f} {size:.1f}"
     return (
-        f'<defs>'
+        f'<path{cls_attr} d="{d_attr}" fill="none" stroke="{color}" '
+        f'stroke-width="{stroke_width:.2f}" stroke-linecap="round"/>'
+    )
+
+
+def aida_pattern_def(
+    pattern_id: str,
+    weave_color: str = LINEN_WEAVE,
+    pinhole_color: str = LINEN_PINHOLE,
+    opacity_scale: float = 1.0,
+) -> str:
+    """Define an 8x8 woven Aida cloth pattern with subtle threads and pinholes."""
+    weave_op = 0.28 * opacity_scale
+    hole_op = 0.34 * opacity_scale
+    return (
+        f'<pattern id="{pattern_id}" width="8" height="8" patternUnits="userSpaceOnUse">'
+        f'<line x1="0" y1="4" x2="8" y2="4" stroke="{weave_color}" stroke-opacity="{weave_op:.3f}" stroke-width="0.9"/>'
+        f'<line x1="4" y1="0" x2="4" y2="8" stroke="{weave_color}" stroke-opacity="{weave_op:.3f}" stroke-width="0.9"/>'
+        f'<rect x="0" y="0" width="1.1" height="1.1" fill="{pinhole_color}" fill-opacity="{hole_op:.3f}"/>'
+        f"</pattern>"
+    )
+
+
+def card_surface(w: float, h: int, grad_id: str = "cardbg", extra_defs: str = "") -> str:
+    """Return warm woven Aida linen gradient surface, weave pattern, and stitched frame."""
+    return (
+        f"<defs>"
         f'<linearGradient id="{grad_id}" x1="0" y1="0" x2="1" y2="1">'
-        f'<stop offset="0" stop-color="{BG_CARD_TOP}"/>'
-        f'<stop offset="1" stop-color="{BG_DARK}"/>'
+        f'<stop offset="0" stop-color="{LINEN_TOP}"/>'
+        f'<stop offset="1" stop-color="{LINEN_BOT}"/>'
         f"</linearGradient>"
+        f'<clipPath id="{grad_id}-clip"><rect width="{w:.3f}" height="{h}" rx="14"/></clipPath>'
+        f"{aida_pattern_def(f'{grad_id}-aida')}"
         f"{extra_defs}"
         f"</defs>"
-        f'<rect width="{w:.3f}" height="{h}" rx="14" fill="url(#{grad_id})"/>'
+        f'<g clip-path="url(#{grad_id}-clip)">'
+        f'<rect width="{w:.3f}" height="{h}" fill="url(#{grad_id})"/>'
+        f'<rect width="{w:.3f}" height="{h}" fill="url(#{grad_id}-aida)"/>'
+        f"</g>"
         f'<rect x="0.5" y="0.5" width="{w - 1:.3f}" height="{h - 1}" rx="14" fill="none" '
-        f'stroke="{CYAN}" stroke-opacity="0.22" stroke-width="1"/>'
+        f'stroke="{LINEN_BORDER}" stroke-width="1"/>'
+        f'<rect x="5.5" y="5.5" width="{w - 11:.3f}" height="{h - 11}" rx="10" fill="none" '
+        f'stroke="{LINEN_STITCH}" stroke-opacity="0.48" stroke-width="1" stroke-dasharray="4 4"/>'
     )
+
+
+def corner_stitches(w: float, h: int) -> str:
+    """Draw 4 small cross-stitch clusters anchoring the hero card corners."""
+    marks = []
+    for cx, cy, dx, dy in (
+        (16, 16, 10, 10),
+        (w - 23, 16, -10, 10),
+        (16, h - 23, 10, -10),
+        (w - 23, h - 23, -10, -10),
+    ):
+        marks.append(cross_stitch_mark(cx, cy, 7, BLAZE_RED, stroke_width=1.8))
+        marks.append(cross_stitch_mark(cx + dx, cy, 7, WALNUT_MID, stroke_width=1.6))
+        marks.append(cross_stitch_mark(cx, cy + dy, 7, WALNUT_MID, stroke_width=1.6))
+    return f'<g opacity="0.88">{"".join(marks)}</g>'
+
+
+def render_burning_car(ox: float, oy: float, cell: float = 7.0) -> str:
+    """Render the cross-stitch burning-car vignette batched by thread color and motion layer."""
+    pad = cell * 0.16
+    span = cell * 0.68
+    stroke_w = cell * 0.32
+    grouped: dict[str, list[str]] = {k: [] for k in STITCH_DRAW_ORDER}
+
+    for r, row in enumerate(BURNING_CAR_GRID):
+        y = oy + r * cell + pad
+        for c, ch in enumerate(row):
+            if ch == ".":
+                continue
+            x = ox + c * cell
+            grouped[ch].append(
+                f"M{x + pad:.1f} {y:.1f}l{span:.1f} {span:.1f}"
+                f"M{x + cell - pad:.1f} {y:.1f}l{-span:.1f} {span:.1f}"
+            )
+
+    paths = []
+    for key in STITCH_DRAW_ORDER:
+        segs = grouped[key]
+        if not segs:
+            continue
+        color, cls = STITCH_PALETTE[key]
+        cls_attr = f' class="{cls}"' if cls else ""
+        paths.append(
+            f'<path{cls_attr} d="{"".join(segs)}" fill="none" stroke="{color}" '
+            f'stroke-width="{stroke_w:.2f}" stroke-linecap="round"/>'
+        )
+
+    ground_y = oy + len(BURNING_CAR_GRID) * cell + 2
+    ground = (
+        f'<line x1="{ox + 3 * cell:.1f}" y1="{ground_y:.1f}" '
+        f'x2="{ox + 34 * cell:.1f}" y2="{ground_y:.1f}" '
+        f'stroke="{LINEN_STITCH}" stroke-opacity="0.45" stroke-width="1.5" stroke-dasharray="4 4"/>'
+    )
+    return f"<g>{ground}{''.join(paths)}</g>"
 
 
 def render_hero(data: dict[str, Any], out_dir: str | Path, static: bool = False) -> Path:
-    """Render Card 1: typography + live status hero card."""
+    """Render Card 1: typography + cross-stitch burning-car hero card."""
     h = 330
     total = int(data["total_contributions"])
-
-    grid_lines = []
-    for gx in range(44, W, 44):
-        grid_lines.append(
-            f'<line x1="{gx}" y1="0" x2="{gx}" y2="{h}" stroke="{CYAN}" stroke-opacity="0.045" stroke-width="1"/>'
-        )
-    for gy in range(44, h, 44):
-        grid_lines.append(
-            f'<line x1="0" y1="{gy}" x2="{W}" y2="{gy}" stroke="{CYAN}" stroke-opacity="0.045" stroke-width="1"/>'
-        )
-
-    brackets = (
-        f'<g stroke="{CYAN}" stroke-opacity="0.42" stroke-width="1.5" fill="none">'
-        f'<path d="M16 28V16H28"/>'
-        f'<path d="M{W - 28} 16H{W - 16}V28"/>'
-        f'<path d="M16 {h - 28}V{h - 16}H28"/>'
-        f'<path d="M{W - 28} {h - 16}H{W - 16}V{h - 28}"/>'
-        f"</g>"
-    )
 
     shine_anim = (
         ""
@@ -259,18 +402,17 @@ def render_hero(data: dict[str, Any], out_dir: str | Path, static: bool = False)
         else '<animateTransform attributeName="gradientTransform" type="translate" '
         'values="-620 0;680 0;680 0" keyTimes="0;.45;1" dur="6.5s" begin="1.4s" repeatCount="indefinite"/>'
     )
-    name_fill = INK_FG if static else "url(#shine)"
+    name_fill = SOOT_DARK if static else "url(#shine)"
 
     extra_defs = (
-        f'<clipPath id="heroclip"><rect width="{W}" height="{h}" rx="14"/></clipPath>'
-        f'<radialGradient id="heroglow" cx="85%" cy="18%" r="55%">'
-        f'<stop offset="0" stop-color="{CYAN}" stop-opacity="0.11"/>'
-        f'<stop offset="1" stop-color="{CYAN}" stop-opacity="0"/>'
+        f'<radialGradient id="heroglow" cx="78%" cy="42%" r="44%">'
+        f'<stop offset="0" stop-color="{EMBER_ORANGE}" stop-opacity="0.11"/>'
+        f'<stop offset="1" stop-color="{EMBER_ORANGE}" stop-opacity="0"/>'
         f"</radialGradient>"
         f'<linearGradient id="shine" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="620" y2="0">'
-        f'<stop offset="0" stop-color="{INK_FG}"/><stop offset=".40" stop-color="{INK_FG}"/>'
-        f'<stop offset=".50" stop-color="{CYAN}"/><stop offset=".60" stop-color="{INK_FG}"/>'
-        f'<stop offset="1" stop-color="{INK_FG}"/>'
+        f'<stop offset="0" stop-color="{SOOT_DARK}"/><stop offset=".40" stop-color="{SOOT_DARK}"/>'
+        f'<stop offset=".48" stop-color="{BLAZE_RED}"/><stop offset=".52" stop-color="{EMBER_ORANGE}"/>'
+        f'<stop offset=".60" stop-color="{SOOT_DARK}"/><stop offset="1" stop-color="{SOOT_DARK}"/>'
         f"{shine_anim}"
         f"</linearGradient>"
     )
@@ -282,24 +424,26 @@ def render_hero(data: dict[str, Any], out_dir: str | Path, static: bool = False)
 
     body = f"""
 {card_surface(W, h, "herobg", extra_defs)}
-<g clip-path="url(#heroclip)">
+<g clip-path="url(#herobg-clip)">
   <rect width="{W}" height="{h}" fill="url(#heroglow)"/>
-  {''.join(grid_lines)}
 </g>
-{brackets}
+{corner_stitches(W, h)}
 <g class="f" {d(0)}>
-  <rect class="live" x="44" y="37" width="8" height="8" rx="2" fill="{CYAN}"/>
+  {cross_stitch_mark(44, 37, 8, BLAZE_RED, stroke_width=2.0, cls="live")}
   <text x="62" y="45" font-family="{MONO}" font-size="12" letter-spacing="1" fill="{INK_MUTED}">ROBOTICS SOFTWARE &amp; AI ENGINEER // UGM</text>
-  <text x="{W - 44}" y="45" text-anchor="end" font-family="{MONO}" font-size="11.5" letter-spacing="0.8" fill="{INK_MUTED}">YOGYAKARTA, ID  &#183;  <tspan fill="{CYAN}">{total:,}</tspan> COMMITS / YR</text>
+  <text x="{W - 44}" y="45" text-anchor="end" font-family="{MONO}" font-size="11.5" letter-spacing="0.8" fill="{INK_MUTED}">YOGYAKARTA, ID  &#183;  <tspan fill="{BLAZE_TEXT}">{total:,}</tspan> COMMITS / YR</text>
 </g>
-<text class="r" {d(0.15)} x="42" y="138" font-family="{DISP}" font-weight="800" font-size="78" letter-spacing="-2.2" fill="{INK_FG}">Mahardika</text>
+<text class="r" {d(0.15)} x="42" y="138" font-family="{DISP}" font-weight="800" font-size="78" letter-spacing="-2.2" fill="{SOOT_DARK}">Mahardika</text>
 <text class="r" {d(0.30)} x="42" y="214" font-family="{DISP}" font-weight="800" font-size="78" letter-spacing="-2.2" fill="{name_fill}">Ramadhana</text>
+<g class="f" {d(0.35)}>
+  {render_burning_car(566, 68, 7.0)}
+</g>
 <g class="r" {d(0.50)}>
-  {text_lines(44, 250, tagline, 24, f'font-family="{SANS}" font-weight="400" font-size="16.5" fill="{INK_BODY}"')}
+  {text_lines(44, 250, tagline, 24, f'font-family="{SANS}" font-weight="400" font-size="16.5" fill="{SMOKE_LIGHT}"')}
 </g>
 <g class="f" {d(0.72)}>
-  <text x="44" y="306" font-family="{MONO}" font-size="12.5" fill="{INK_FG}">mahardikaramadhana.vercel.app</text>
-  <text class="nu" x="268" y="306" font-family="{MONO}" font-size="13" fill="{CYAN}">&#8599;</text>
+  <text x="44" y="306" font-family="{MONO}" font-size="12.5" fill="{SOOT_DARK}">mahardikaramadhana.vercel.app</text>
+  <text class="nu" x="268" y="306" font-family="{MONO}" font-size="13" fill="{BLAZE_RED}">&#8599;</text>
   <text x="{W - 44}" y="306" text-anchor="end" font-family="{MONO}" font-size="11.5" letter-spacing="0.8" fill="{INK_MUTED}">ROS 2 &#183; C++17 &#183; PYTORCH &#183; TYPESCRIPT</text>
 </g>
 """
@@ -318,7 +462,7 @@ def render_hero(data: dict[str, Any], out_dir: str | Path, static: bool = False)
 
 
 def level_for(count: int) -> int:
-    """Map daily contribution count to a 0..5 cyber-cyan intensity bucket."""
+    """Map daily contribution count to a 0..5 ember intensity bucket."""
     if count <= 0:
         return 0
     if count <= 5:
@@ -333,7 +477,7 @@ def level_for(count: int) -> int:
 
 
 def render_heatmap(data: dict[str, Any], out_dir: str | Path, static: bool = False) -> Path:
-    """Render Card 2: cyber-cyan daily contribution heatmap."""
+    """Render Card 2: ember-thread daily contribution heatmap on Aida linen."""
     days = data["days"]
     first = datetime.date.fromisoformat(days[0]["date"])
     lead = (first.weekday() + 1) % 7
@@ -356,7 +500,7 @@ def render_heatmap(data: dict[str, Any], out_dir: str | Path, static: bool = Fal
         suffix = "s" if c != 1 else ""
         cells.append(
             f'<rect class="p" style="animation-delay:{delay:.2f}s" x="{gx + col * step:.1f}" '
-            f'y="{gy + row * step}" width="{cell}" height="{cell}" rx="3" fill="{HEATMAP_RAMP[level_for(c)]}">'
+            f'y="{gy + row * step}" width="{cell}" height="{cell}" rx="2" fill="{HEATMAP_RAMP[level_for(c)]}">'
             f'<title>{escape(day["date"])}: {c} contribution{suffix}</title></rect>'
         )
 
@@ -367,14 +511,14 @@ def render_heatmap(data: dict[str, Any], out_dir: str | Path, static: bool = Fal
         if gx + col * step < legend_x - 64
     )
     legend = "".join(
-        f'<rect x="{legend_x + i * 14:.1f}" y="{gy + 7 * step + 6}" width="11" height="11" rx="2.5" fill="{col_hex}"/>'
+        f'<rect x="{legend_x + i * 14:.1f}" y="{gy + 7 * step + 6}" width="11" height="11" rx="2" fill="{col_hex}"/>'
         for i, col_hex in enumerate(HEATMAP_RAMP)
     )
     h = gy + 7 * step + 48
     total = int(data["total_contributions"])
     body = f"""
 {card_surface(W, h, "heatbg")}
-<text class="r" {d(0.80)} x="{gx:.1f}" y="54" font-family="{DISP}" font-weight="600" font-size="32" fill="{INK_FG}">Every day, <tspan fill="{CYAN}">in cyan</tspan></text>
+<text class="r" {d(0.80)} x="{gx:.1f}" y="54" font-family="{DISP}" font-weight="600" font-size="32" fill="{SOOT_DARK}">Every day, <tspan fill="{BLAZE_TEXT}">in ember</tspan></text>
 <text class="f" {d(0.80)} x="{right:.1f}" y="52" text-anchor="end" font-family="{MONO}" font-size="11.5" letter-spacing="1" fill="{INK_MUTED}">REFRESHED DAILY</text>
 {''.join(cells)}
 <g class="f" {d(2.40)}>
@@ -414,8 +558,12 @@ def render_activity(data: dict[str, Any], out_dir: str | Path, static: bool = Fa
         is_best = m is best and m["total"] > 0
         bh = max(4, round(m["total"] / top * maxh))
         x = x0 + i * (bw + gap)
-        fill = CYAN if is_best else (BAR_PARTIAL if partial else BAR_MUTED)
-        stroke_attr = f' stroke="{CYAN}" stroke-opacity="0.35" stroke-width="1"' if partial and not is_best else ""
+        fill = BLAZE_RED if is_best else (BAR_PARTIAL if partial else BAR_MUTED)
+        stroke_attr = (
+            f' stroke="{BLAZE_TEXT}" stroke-opacity="0.55" stroke-width="1" stroke-dasharray="3 2"'
+            if partial and not is_best
+            else ""
+        )
         label = datetime.date.fromisoformat(m["month"] + "-01").strftime("%b")
         bars.append(
             f'<rect class="g" style="animation-delay:{2.2 + i * 0.07:.2f}s" x="{x:.1f}" y="{base - bh}" '
@@ -426,7 +574,7 @@ def render_activity(data: dict[str, Any], out_dir: str | Path, static: bool = Fa
         if is_best:
             bars.append(
                 f'<text class="p" style="animation-delay:3.20s" x="{x + bw / 2:.1f}" y="{base - bh - 10}" '
-                f'text-anchor="middle" font-family="{MONO}" font-size="11" fill="{CYAN}">{m["total"]:,}</text>'
+                f'text-anchor="middle" font-family="{MONO}" font-size="11" fill="{BLAZE_TEXT}">{m["total"]:,}</text>'
             )
 
     cs = int(data["current_streak"]["length"])
@@ -443,7 +591,7 @@ def render_activity(data: dict[str, Any], out_dir: str | Path, static: bool = Fa
 
     day_word = "day" if cs == 1 else "days"
     stats = [
-        (f'{cs} <tspan fill="{CYAN}">{day_word}</tspan>', streak_note),
+        (f'{cs} <tspan fill="{BLAZE_TEXT}">{day_word}</tspan>', streak_note),
         (f'{int(data["active_days"])}<tspan fill="{INK_MUTED}"> / {total_days}</tspan>', "days with a commit"),
         (f"{best_count}", best_note),
     ]
@@ -453,20 +601,21 @@ def render_activity(data: dict[str, Any], out_dir: str | Path, static: bool = Fa
         y = 98 + i * 92
         side.append(
             f'<g class="r" {d(2.60 + i * 0.15)}>'
-            f'<text x="644" y="{y}" font-family="{DISP}" font-weight="800" font-size="36" fill="{INK_FG}">{big}</text>'
+            f'<text x="644" y="{y}" font-family="{DISP}" font-weight="800" font-size="36" fill="{SOOT_DARK}">{big}</text>'
             f'<text x="644" y="{y + 24}" font-family="{SANS}" font-weight="400" font-size="13" fill="{INK_MUTED}">{escape(small)}</text>'
             f"</g>"
         )
         if i < 2:
             side.append(
-                f'<rect class="f" {d(2.60)} x="644" y="{y + 44}" width="196" height="1" fill="{CYAN}" opacity="0.16"/>'
+                f'<line class="f" {d(2.60)} x1="644" y1="{y + 44}" x2="840" y2="{y + 44}" '
+                f'stroke="{LINEN_STITCH}" stroke-opacity="0.65" stroke-width="1" stroke-dasharray="4 3"/>'
             )
 
     total = int(data["total_contributions"])
     body = f"""
 {card_surface(W, h, "actbg")}
 <text class="f" {d(1.90)} x="40" y="56" font-family="{MONO}" font-size="11.5" letter-spacing="1" fill="{INK_MUTED}">THE LAST 12 MONTHS ON GITHUB</text>
-<text class="r" {d(2.00)} x="38" y="108" font-family="{DISP}" font-weight="800" font-size="46" fill="{INK_FG}">{total:,} <tspan fill="{CYAN}">contributions</tspan></text>
+<text class="r" {d(2.00)} x="38" y="108" font-family="{DISP}" font-weight="800" font-size="46" fill="{SOOT_DARK}">{total:,} <tspan fill="{BLAZE_TEXT}">contributions</tspan></text>
 {''.join(bars)}
 {''.join(side)}
 """
@@ -534,8 +683,10 @@ def render_tile(
     delay: float,
     pos: int,
     static: bool = False,
+    accent: str | None = None,
 ) -> Path:
-    """Render Cards 4-6: one animated spotlight world tile."""
+    """Render Cards 4-6: one animated dyed-thread spotlight tile."""
+    ring_color = accent or on
     lines = wrap(blurb, 31)
     blurb_svg = "".join(
         f'<text class="r" {d(delay + 0.75 + i * 0.1)} x="24" y="{148 + i * 20}" font-family="{SANS}" '
@@ -546,21 +697,24 @@ def render_tile(
 <defs>
   <clipPath id="card"><rect width="{TILE_W:.3f}" height="{TILE_H}" rx="14"/></clipPath>
   <clipPath id="slot"><rect x="0" y="60" width="{TILE_W:.3f}" height="64"/></clipPath>
+  {aida_pattern_def(f"weave-{name}", weave_color="#ffffff", pinhole_color="#000000", opacity_scale=0.35)}
   <linearGradient id="gl" x1="0" x2="1">
     <stop offset="0" stop-color="#fff" stop-opacity="0"/>
-    <stop offset=".5" stop-color="#fff" stop-opacity=".35"/>
+    <stop offset=".5" stop-color="#fff" stop-opacity=".28"/>
     <stop offset="1" stop-color="#fff" stop-opacity="0"/>
   </linearGradient>
 </defs>
 <g class="ti" {d(delay)}>
   <g clip-path="url(#card)">
     <rect width="{TILE_W:.3f}" height="{TILE_H}" fill="{color}"/>
-    <circle class="rg" {d(delay + 0.50)} cx="{TILE_W - 40:.3f}" cy="{TILE_H - 40}" r="60" fill="none" stroke="{on}" stroke-opacity=".45" stroke-width="2"/>
+    <rect width="{TILE_W:.3f}" height="{TILE_H}" fill="url(#weave-{name})"/>
+    <rect x="5.5" y="5.5" width="{TILE_W - 11:.3f}" height="{TILE_H - 11}" rx="10" fill="none" stroke="{ring_color}" stroke-opacity="0.32" stroke-width="1" stroke-dasharray="4 4"/>
+    <circle class="rg" {d(delay + 0.50)} cx="{TILE_W - 40:.3f}" cy="{TILE_H - 40}" r="60" fill="none" stroke="{ring_color}" stroke-opacity=".45" stroke-width="2"/>
     <rect class="sh" style="animation-delay:{delay + 1.4:.2f}s" x="0" y="-20" width="90" height="{TILE_H + 40}" fill="url(#gl)" transform="translate(-260 0)"/>
   </g>
   <text class="sl" {d(delay + 0.35)} x="24" y="38" font-family="{MONO}" font-size="12" letter-spacing="1.2" fill="{on}">{escape(label)}</text>
   <g class="ai" {d(delay + 0.50)}>
-    <text class="n" style="animation-delay:{delay + 1.3:.2f}s" x="249" y="38" font-family="{MONO}" font-size="14" fill="{on}">&#8594;</text>
+    <text class="n" style="animation-delay:{delay + 1.3:.2f}s" x="249" y="38" font-family="{MONO}" font-size="14" fill="{ring_color}">&#8594;</text>
   </g>
   <g clip-path="url(#slot)">
     <g class="ro" {d(delay + 0.45)}>
@@ -594,8 +748,8 @@ def render_section_title(
     static: bool = False,
 ) -> Path:
     """Render Cards 7-8: light/dark adaptive section header."""
-    fg = INK_FG if theme == "dark" else INK_LIGHT
-    accent_color = CYAN if theme == "dark" else COBALT
+    fg = ON_DARK if theme == "dark" else SOOT_DARK
+    accent_color = EMBER_ORANGE if theme == "dark" else BLAZE_TILE
     body = (
         f'<text class="r" {d(4.40)} x="2" y="42" font-family="{DISP}" font-weight="600" '
         f'font-size="30" letter-spacing="-0.6" fill="{fg}">{escape(text)} '
@@ -634,10 +788,10 @@ def render_repo_card(
     body = f"""
 {card_surface(REPO_W, REPO_H, f"repobg{idx}")}
 <g class="r" {d(delay)}>
-  <rect x="22" y="29" width="8" height="8" rx="2" fill="{color}"/>
-  <text x="38" y="38" font-family="{SANS}" font-weight="600" font-size="15.5" fill="{INK_FG}">{escape(name)}</text>
+  {cross_stitch_mark(22, 29, 8, color, stroke_width=2.0)}
+  <text x="38" y="38" font-family="{SANS}" font-weight="600" font-size="15.5" fill="{SOOT_DARK}">{escape(name)}</text>
   <text class="nu" style="animation-delay:{delay + 0.8:.2f}s" x="252" y="38" font-family="{MONO}" font-size="13" fill="{color}">&#8599;</text>
-  {text_lines(22, 74, lines, 20, f'font-family="{SANS}" font-weight="400" font-size="13.5" fill="{INK_BODY}"')}
+  {text_lines(22, 74, lines, 20, f'font-family="{SANS}" font-weight="400" font-size="13.5" fill="{SMOKE_LIGHT}"')}
   <text x="22" y="{REPO_H - 24}" font-family="{MONO}" font-size="12" fill="{INK_MUTED}">{escape(meta)}</text>
 </g>
 """
@@ -699,40 +853,43 @@ def render_all(
             out_dir,
             "robotics",
             "ROBOTICS",
-            CYAN,
-            VOID,
+            BLAZE_TILE,
+            ON_DARK,
             "3",
             "podiums",
             "HVAC 2026 Japan (1st Athletics, 3rd Sprint & Dance) & ROS 2 GMRT Fukuro.",
             3.10,
             0,
             static=static,
+            accent=FLAME_CREAM,
         ),
         render_tile(
             out_dir,
             "ai",
             "AI & ML",
-            CRIMSON,
-            "#ffffff",
+            SMOKE_MID,
+            ON_DARK,
             "10K+",
             "runs",
             "UGM neural research, custom C++ engines, YOLOv11 edge-AI & RL systems.",
             3.35,
             1,
             static=static,
+            accent=FLAME_GOLD,
         ),
         render_tile(
             out_dir,
             "honors",
             "HONORS",
-            COBALT,
-            INK_FG,
+            WALNUT,
+            ON_DARK,
             "5",
             "titles",
             "HVAC 2026 Japan 1st, OSN Informatics & Math 1st, 2x UGM Chess Champ.",
             3.60,
             2,
             static=static,
+            accent=FLAME_CREAM,
         ),
         render_section_title(out_dir, "Featured", "repositories", "dark", static=static),
         render_section_title(out_dir, "Featured", "repositories", "light", static=static),

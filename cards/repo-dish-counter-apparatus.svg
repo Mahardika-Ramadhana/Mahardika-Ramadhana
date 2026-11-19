@@ -6,6 +6,10 @@
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:.25}}
 @keyframes nudge{0%,100%{transform:none}50%{transform:translateX(4px)}}
 @keyframes nudgeup{0%,100%{transform:none}50%{transform:translate(3px,-3px)}}
+@keyframes flk1{0%,100%{opacity:1;transform:none}45%{opacity:.82;transform:translateY(-1.5px)}70%{opacity:.96;transform:translateY(-.6px)}}
+@keyframes flk2{0%,100%{opacity:.95;transform:none}35%{opacity:.76;transform:translateY(-1.8px)}80%{opacity:1;transform:translateY(-.4px)}}
+@keyframes smk1{0%,100%{opacity:.95;transform:none}50%{opacity:.80;transform:translate(2.2px,-2.8px)}}
+@keyframes smk2{0%,100%{opacity:.92;transform:none}50%{opacity:.75;transform:translate(3.0px,-3.4px)}}
 .r{opacity:0;animation:rise .8s cubic-bezier(.2,.7,.2,1) both;transform-box:fill-box}
 .f{opacity:0;animation:fade .9s ease-out both}
 .g{transform-box:fill-box;transform-origin:bottom;transform:scaleY(0);animation:grow .8s cubic-bezier(.2,.7,.2,1) both}
@@ -13,6 +17,10 @@
 .live{animation:pulse 1.6s ease-in-out infinite}
 .n{transform-box:fill-box;animation:nudge 1.8s ease-in-out infinite}
 .nu{transform-box:fill-box;animation:nudgeup 1.8s ease-in-out infinite}
+.flk1{transform-box:fill-box;animation:flk1 1.6s ease-in-out infinite}
+.flk2{transform-box:fill-box;animation:flk2 2.1s ease-in-out infinite}
+.smk1{transform-box:fill-box;animation:smk1 3.8s ease-in-out infinite}
+.smk2{transform-box:fill-box;animation:smk2 4.6s ease-in-out infinite}
 @keyframes tilein{0%{opacity:0;transform:translateY(90px) scale(.6) rotate(-9deg)}55%{opacity:1;transform:translateY(-10px) scale(1.05) rotate(2deg)}75%{transform:translateY(3px) scale(.98) rotate(-.8deg)}90%{transform:translateY(-1px) scale(1.01) rotate(.2deg)}100%{opacity:1;transform:none}}
 @keyframes slidein{from{opacity:0;transform:translateX(-26px)}to{opacity:1;transform:none}}
 @keyframes arrowin{0%{opacity:0;transform:translateX(-30px)}60%{opacity:1;transform:translateX(6px)}100%{opacity:1;transform:none}}
@@ -25,14 +33,14 @@
 .ro{transform-box:fill-box;animation:roll .8s cubic-bezier(.15,.8,.2,1) both}
 .sh{animation:sheen 5s ease-in-out infinite}
 .rg{opacity:0;transform-box:fill-box;transform-origin:center;animation:ring 1s ease-out both}
-@media (prefers-reduced-motion: reduce){.r,.f,.g,.p,.live,.n,.nu,.ti,.sl,.ai,.ro,.rg{animation:none!important;opacity:1!important;transform:none!important}.sh,.rg{display:none}}
+@media (prefers-reduced-motion: reduce){.r,.f,.g,.p,.live,.n,.nu,.ti,.sl,.ai,.ro,.rg,.flk1,.flk2,.smk1,.smk2{animation:none!important;opacity:1!important;transform:none!important}.sh,.rg{display:none}}
 </style>
-<defs><linearGradient id="repobg0" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#101c2a"/><stop offset="1" stop-color="#070c12"/></linearGradient></defs><rect width="285.333" height="184" rx="14" fill="url(#repobg0)"/><rect x="0.5" y="0.5" width="284.333" height="183" rx="14" fill="none" stroke="#00e5ff" stroke-opacity="0.22" stroke-width="1"/>
+<defs><linearGradient id="repobg0" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#f4ecda"/><stop offset="1" stop-color="#e5d9c2"/></linearGradient><clipPath id="repobg0-clip"><rect width="285.333" height="184" rx="14"/></clipPath><pattern id="repobg0-aida" width="8" height="8" patternUnits="userSpaceOnUse"><line x1="0" y1="4" x2="8" y2="4" stroke="#cbbca2" stroke-opacity="0.280" stroke-width="0.9"/><line x1="4" y1="0" x2="4" y2="8" stroke="#cbbca2" stroke-opacity="0.280" stroke-width="0.9"/><rect x="0" y="0" width="1.1" height="1.1" fill="#b3a082" fill-opacity="0.340"/></pattern></defs><g clip-path="url(#repobg0-clip)"><rect width="285.333" height="184" fill="url(#repobg0)"/><rect width="285.333" height="184" fill="url(#repobg0-aida)"/></g><rect x="0.5" y="0.5" width="284.333" height="183" rx="14" fill="none" stroke="#bfae91" stroke-width="1"/><rect x="5.5" y="5.5" width="274.333" height="173" rx="10" fill="none" stroke="#a69274" stroke-opacity="0.48" stroke-width="1" stroke-dasharray="4 4"/>
 <g class="r" style="animation-delay:4.60s">
-  <rect x="22" y="29" width="8" height="8" rx="2" fill="#00e5ff"/>
-  <text x="38" y="38" font-family="'General Sans', system-ui, -apple-system, sans-serif" font-weight="600" font-size="15.5" fill="#e8f4fa">dish-counter-apparatus</text>
-  <text class="nu" style="animation-delay:5.40s" x="252" y="38" font-family="'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace" font-size="13" fill="#00e5ff">&#8599;</text>
-  <text x="22" y="74" font-family="'General Sans', system-ui, -apple-system, sans-serif" font-weight="400" font-size="13.5" fill="#b8d0e0">Edge-AI POS fusing YOLOv11</text><text x="22" y="94" font-family="'General Sans', system-ui, -apple-system, sans-serif" font-weight="400" font-size="13.5" fill="#b8d0e0">vision with load-cell telemetry</text><text x="22" y="114" font-family="'General Sans', system-ui, -apple-system, sans-serif" font-weight="400" font-size="13.5" fill="#b8d0e0">&amp; QRIS.</text>
-  <text x="22" y="160" font-family="'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12" fill="#7a94aa">Python  ·  Edge-AI</text>
+  <path d="M22.0 29.0l8.0 8.0M30.0 29.0l-8.0 8.0" fill="none" stroke="#cf3b1a" stroke-width="2.00" stroke-linecap="round"/>
+  <text x="38" y="38" font-family="'General Sans', system-ui, -apple-system, sans-serif" font-weight="600" font-size="15.5" fill="#1f1c14">dish-counter-apparatus</text>
+  <text class="nu" style="animation-delay:5.40s" x="252" y="38" font-family="'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace" font-size="13" fill="#cf3b1a">&#8599;</text>
+  <text x="22" y="74" font-family="'General Sans', system-ui, -apple-system, sans-serif" font-weight="400" font-size="13.5" fill="#464032">Edge-AI POS fusing YOLOv11</text><text x="22" y="94" font-family="'General Sans', system-ui, -apple-system, sans-serif" font-weight="400" font-size="13.5" fill="#464032">vision with load-cell telemetry</text><text x="22" y="114" font-family="'General Sans', system-ui, -apple-system, sans-serif" font-weight="400" font-size="13.5" fill="#464032">&amp; QRIS.</text>
+  <text x="22" y="160" font-family="'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12" fill="#736450">Python  ·  Edge-AI</text>
 </g>
 </svg>

@@ -6,6 +6,10 @@
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:.25}}
 @keyframes nudge{0%,100%{transform:none}50%{transform:translateX(4px)}}
 @keyframes nudgeup{0%,100%{transform:none}50%{transform:translate(3px,-3px)}}
+@keyframes flk1{0%,100%{opacity:1;transform:none}45%{opacity:.82;transform:translateY(-1.5px)}70%{opacity:.96;transform:translateY(-.6px)}}
+@keyframes flk2{0%,100%{opacity:.95;transform:none}35%{opacity:.76;transform:translateY(-1.8px)}80%{opacity:1;transform:translateY(-.4px)}}
+@keyframes smk1{0%,100%{opacity:.95;transform:none}50%{opacity:.80;transform:translate(2.2px,-2.8px)}}
+@keyframes smk2{0%,100%{opacity:.92;transform:none}50%{opacity:.75;transform:translate(3.0px,-3.4px)}}
 .r{opacity:0;animation:rise .8s cubic-bezier(.2,.7,.2,1) both;transform-box:fill-box}
 .f{opacity:0;animation:fade .9s ease-out both}
 .g{transform-box:fill-box;transform-origin:bottom;transform:scaleY(0);animation:grow .8s cubic-bezier(.2,.7,.2,1) both}
@@ -13,6 +17,10 @@
 .live{animation:pulse 1.6s ease-in-out infinite}
 .n{transform-box:fill-box;animation:nudge 1.8s ease-in-out infinite}
 .nu{transform-box:fill-box;animation:nudgeup 1.8s ease-in-out infinite}
+.flk1{transform-box:fill-box;animation:flk1 1.6s ease-in-out infinite}
+.flk2{transform-box:fill-box;animation:flk2 2.1s ease-in-out infinite}
+.smk1{transform-box:fill-box;animation:smk1 3.8s ease-in-out infinite}
+.smk2{transform-box:fill-box;animation:smk2 4.6s ease-in-out infinite}
 @keyframes tilein{0%{opacity:0;transform:translateY(90px) scale(.6) rotate(-9deg)}55%{opacity:1;transform:translateY(-10px) scale(1.05) rotate(2deg)}75%{transform:translateY(3px) scale(.98) rotate(-.8deg)}90%{transform:translateY(-1px) scale(1.01) rotate(.2deg)}100%{opacity:1;transform:none}}
 @keyframes slidein{from{opacity:0;transform:translateX(-26px)}to{opacity:1;transform:none}}
 @keyframes arrowin{0%{opacity:0;transform:translateX(-30px)}60%{opacity:1;transform:translateX(6px)}100%{opacity:1;transform:none}}
@@ -25,5 +33,5 @@
 .ro{transform-box:fill-box;animation:roll .8s cubic-bezier(.15,.8,.2,1) both}
 .sh{animation:sheen 5s ease-in-out infinite}
 .rg{opacity:0;transform-box:fill-box;transform-origin:center;animation:ring 1s ease-out both}
-@media (prefers-reduced-motion: reduce){.r,.f,.g,.p,.live,.n,.nu,.ti,.sl,.ai,.ro,.rg{animation:none!important;opacity:1!important;transform:none!important}.sh,.rg{display:none}}
-</style><text class="r" style="animation-delay:4.40s" x="2" y="42" font-family="'Cabinet Grotesk', system-ui, -apple-system, sans-serif" font-weight="600" font-size="30" letter-spacing="-0.6" fill="#070c12">Featured <tspan fill="#0077b6">repositories</tspan></text></svg>
+@media (prefers-reduced-motion: reduce){.r,.f,.g,.p,.live,.n,.nu,.ti,.sl,.ai,.ro,.rg,.flk1,.flk2,.smk1,.smk2{animation:none!important;opacity:1!important;transform:none!important}.sh,.rg{display:none}}
+</style><text class="r" style="animation-delay:4.40s" x="2" y="42" font-family="'Cabinet Grotesk', system-ui, -apple-system, sans-serif" font-weight="600" font-size="30" letter-spacing="-0.6" fill="#1f1c14">Featured <tspan fill="#b83217">repositories</tspan></text></svg>
